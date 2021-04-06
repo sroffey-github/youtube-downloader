@@ -21,7 +21,7 @@ def clear():
 def search(key):
     count = 0
     top = []
-    url = first + key # full url
+    url = first + key
     html = urllib.request.urlopen(url)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
     for i in video_ids:
@@ -58,7 +58,7 @@ def download(mode, url, path):
         ydl.download([url])
         os.chdir(original_path)
         return True
-    elif mode == 3: # mp3 playlist
+    elif mode == 3:
         opts = {
             'format':'bestaudio/best',
             'postprocessors':[{
