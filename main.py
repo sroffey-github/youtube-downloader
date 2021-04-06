@@ -30,8 +30,8 @@ def main():
     print('[?] Would you like to download a playlist? (y/n)')
     playlist = input('>>> ')
     if playlist.lower().strip() == 'y':
-        if mode == 1: # if mp3
-            mode = 3 # playlist mp3
+        if mode == 1:
+            mode = 3
             clear()
             print('-'*8 + '   PLAYLIST URL   ' + '-'*8)
             url = input('>>> ')
@@ -58,7 +58,7 @@ def main():
             print('[!] Invalid Option.')
             exit()
     else:
-        pass # no playlist
+        pass
 
     clear()
     print('-'*8 + '   ENTER KEY WORDS   ' + '-'*8)
@@ -93,12 +93,3 @@ else:
     os.mkdir('downloads')
 
 main()
-
-'''
-mode 1 = mp3
-mode 2 = mp4
-mode 3 = playlist mp3
-mode 4 = playlist mp4
-'''
-
-# PLAYLIST FUNCTIONS NOT WORKING!
