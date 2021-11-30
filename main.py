@@ -3,7 +3,7 @@ from config import *
 msg = ''' __   __                  __        __   ___  __  
 |  \ /  \ |  | |\ | |    /  \  /\  |  \ |__  |__) 
 |__/ \__/ |/\| | \| |___ \__/ /~~\ |__/ |___ |  \ 
-                                            By s-r0ff3y
+                                            By sroffey-github
 '''
 
 def main():
@@ -14,14 +14,16 @@ def main():
     print(msg)
 
     print('-'*8 + '   OPTIONS   ' + '-'*8)
-    print('[1] Download MP3\n[2] Download MP4')
+    print('[1] Download MP3\n[2] Download MP4\n')
     option = input('>>> ')
-    print('\n[?] Path to save files?')
+    print('\n[?] Path to save files? (leave blank for default path)')
     path = input('>>> ')
+    if path == "":
+        path = os.getcwd() + '/downloads'
 
     if option == '1':
         mode = 1
-    elif option == '2':
+    if option == '2':
         mode = 2
     else:
         print('[!] Invalid Option.')

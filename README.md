@@ -1,10 +1,39 @@
-# youtube-downloader
-Simple script written in python to download YouTube videos or playlists to mp3 or mp4 format.
 
-# To install all required modules, use:
+# Youtube Downloader
 
-pip3 install -r requirements.txt
+This is a simple web script that uses API's and web scraping to download youtube videos in either a .mp3 or .mp4 format 
 
-# To run the program, use:
+## Installation
 
-python3 main.py
+Install the requirements using pip
+
+```bash
+  pip3 install requirements.txt
+  cd my-project
+```
+
+Running the program
+
+```bash
+    python3 main.py
+```
+
+
+## Errors
+
+You may get a similar error to this 
+
+``` bash
+ERROR: ffprobe/avprobe and ffmpeg/avconv not found. Please install one.
+```
+
+This means you must install one of these packages. If you are on mac you can use this command:
+```bash
+brew install ffmpeg
+```
+(This may take a while)
+
+## Authors
+
+- [@sroffey-github](https://www.github.com/sroffey-github)
+
