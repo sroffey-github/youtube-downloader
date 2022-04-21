@@ -8,8 +8,8 @@ This is a simple web script that uses API's and web scraping to download youtube
 Install the requirements using pip
 
 ```bash
-  pip3 install requirements.txt
-  cd my-project
+  pip3 install -r requirements.txt
+  cd youtube-downloader
 ```
 
 Running the program

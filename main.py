@@ -14,20 +14,24 @@ def main():
     print(msg)
 
     print('-'*8 + '   OPTIONS   ' + '-'*8)
-    print('[1] Download MP3\n[2] Download MP4\n')
+    print('[1] Download MP3\n[2] Download MP4\n[3] Exit\n')
+    
     option = input('>>> ')
+    if option == '1':
+        mode = 1
+    elif option == '2':
+        mode = 2
+    elif option == '3':
+        print('[-] Closing...')
+        exit()
+    else:
+        print('[!] Invalid Option.')
+        exit()
+    
     print('\n[?] Path to save files? (leave blank for default path)')
     path = input('>>> ')
     if path == "":
         path = os.getcwd() + '/downloads'
-
-    if option == '1':
-        mode = 1
-    if option == '2':
-        mode = 2
-    else:
-        print('[!] Invalid Option.')
-        exit()
 
     print('[?] Would you like to download a playlist? (y/n)')
     playlist = input('>>> ')
