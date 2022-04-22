@@ -1,91 +1,60 @@
-from youtube_dl import YoutubeDL
-from pytube import Playlist
-from pytube import YouTube
-import urllib.request
-import platform
-import pytube
-import re
-import os
+from logging.handlers import RotatingFileHandler
+from dotenv import load_dotenv
+import platform, os, urllib.request, re, logging, datetime, youtube_dl
 
-original_path = os.getcwd()
+load_dotenv()
 
-first = 'https://www.youtube.com/results?search_query='
-second = 'https://www.youtube.com/watch?v='
+CURRENT_PATH = os.getcwd()
+DOWNLOAD_PATH = os.getenv('DOWNLOAD_PATH')
+LOG_PATH = os.getenv('LOG_PATH')
+
+search_url = 'https://www.youtube.com/results?search_query='
+video_url = 'https://www.youtube.com/watch?v='
 
 def clear():
-    if 'windows' in platform.system():
+    if 'windows' in platform.system().lower():
         os.system('cls')
     else:
         os.system('clear')
-
-def search(key):
-    count = 0
-    top = []
-    url = first + key
+        
+def log(err):
+    logger = logging.getLogger("Rotating Log")
+    logger.setLevel(logging.INFO)
+    
+    handler = RotatingFileHandler(LOG_PATH, maxBytes=10485760, backupCount=5)
+    logger.addHandler(handler)
+    
+    logger.info('[{}] '.format(str(datetime.datetime.now(), err)))
+        
+def search(query):
+    top_results = []
+    
+    url = search_url + query.strip().replace(' ', '%20')
     html = urllib.request.urlopen(url)
+    
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-    for i in video_ids:
-        if count == 3:
-            continue
-        else:
-            top.append(second + i)
-            count += 1
-    return top
+    for vid in video_ids:
+        if len(top_results) == 3:
+            return top_results
+        top_results.append(video_url + vid)
+        
+def download(link, mode):
+    os.chdir(DOWNLOAD_PATH)
+    
+    video_info = youtube_dl.YoutubeDL().extract_info(
+        url = link, download=False
+    )
+    
+    filename = f"{video_info['title']}.mp3"
+    
+    options={
+        'format':'bestaudio/best',
+        'keepvideo':False,
+        'outtmpl':filename,
+    }
+    
+    with youtube_dl.YoutubeDL(options) as ydl:
+        ydl.download([video_info['webpage_url']])
+    os.chdir(CURRENT_PATH)
 
-def download(mode, url, path):
-    if mode == 3 or mode == 4:
-        pass
-    else:
-        print('\n[+] Downloading Top Result...')
-    if mode == 1:
-        opts = {
-            'format':'bestaudio/best',
-            'postprocessors':[{
-                'key':'FFmpegExtractAudio',
-                'preferredcodec':'mp3',
-                'preferredquality':'192'
-            }]
-        }
-        ydl = YoutubeDL(opts)
-        os.chdir(path)
-        ydl.download([url])
-        os.chdir(original_path)
-        return True
-    elif mode == 2:
-        opts = {}
-        ydl = YoutubeDL(opts)
-        os.chdir(path)
-        ydl.download([url])
-        os.chdir(original_path)
-        return True
-    elif mode == 3:
-        opts = {
-            'format':'bestaudio/best',
-            'postprocessors':[{
-                'key':'FFmpegExtractAudio',
-                'preferredcodec':'mp3',
-                'preferredquality':'192'
-            }]
-        }
-        ydl = YoutubeDL(opts)
-        os.chdir(path)
-        playlist = Playlist(url)
-        print('[-] Downloading {} Videos...'.format(len(playlist.video_urls)))
-        for url in playlist:
-            print('[-] Downloading {}...'.format(url))
-            ydl.download([url])
-        os.chdir(original_path)
-        return True
-    elif mode == 4:
-        opts = {}
-        ydl = YoutubeDL(opts)
-        playlist = Playlist(url)
-        os.chdir(path)
-        print('[-] Downloading {} Videos...'.format(len(playlist.video_urls)))
-        for url in playlist:
-            print('[-] Downloading {}...'.format(url))
-            ydl.download([url])
-        os.chdir(original_path)
-        return True
-    else:
-        return False
+    return True

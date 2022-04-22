@@ -18,6 +18,22 @@ Running the program
     python3 main.py
 ```
 
+## Environment Variables
+
+`DOWNLOAD_PATH`
+
+`LOG_PATH`
+
+## Modes
+
+Mode 1 - Download Mp3
+
+Mode 2 - Download Mp4
+
+Mode 3 - Download Mp3 Playlist
+
+Mode 4 - Download Mp4 Playlist
+
 
 ## Errors
 
